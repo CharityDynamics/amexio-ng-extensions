@@ -62726,7 +62726,6 @@ var AmexioDatagridComponent = /** @class */ (function (_super) {
      */
     function () {
         var _this = this;
-        alert('UPDATECOMPONENT');
         if (this.data.length > 0) {
             this.data.forEach((/**
              * @param {?} obj
@@ -63790,8 +63789,6 @@ var AmexioDatagridComponent = /** @class */ (function (_super) {
      * @return {?}
      */
     function (sortCol, clickEvent) {
-        alert('SORT ON HEADER CLICK');
-        console.log('SORT ON HEADER CLICK');
         this.onHeaderClick.emit({ event: clickEvent, data: sortCol });
         if (sortCol.sort) {
             if (this.sortBy === -1) {
@@ -64404,8 +64401,6 @@ var AmexioDatagridComponent = /** @class */ (function (_super) {
     function (event) {
         event.stopImmediatePropagation();
         this.addListner();
-        alert('ENABLE COLUMN CLICK');
-        console.log('ENABLE COLUMN CLICK');
         this.showToolTip = false;
         this.showEnableColumnFilter = !this.showEnableColumnFilter;
         this.showGroupByColumn = false;
