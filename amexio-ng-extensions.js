@@ -59896,6 +59896,7 @@ class AmexioDatagridComponent extends LifeCycleBaseComponent {
      * @return {?}
      */
     updateComponent() {
+        alert('UPDATECOMPONENT');
         if (this.data.length > 0) {
             this.data.forEach((/**
              * @param {?} obj
@@ -60780,6 +60781,8 @@ class AmexioDatagridComponent extends LifeCycleBaseComponent {
      * @return {?}
      */
     sortOnColHeaderClick(sortCol, clickEvent) {
+        alert('SORT ON HEADER CLICK');
+        console.log('SORT ON HEADER CLICK');
         this.onHeaderClick.emit({ event: clickEvent, data: sortCol });
         if (sortCol.sort) {
             if (this.sortBy === -1) {
@@ -61268,6 +61271,8 @@ class AmexioDatagridComponent extends LifeCycleBaseComponent {
     onEnableColumnClick(event) {
         event.stopImmediatePropagation();
         this.addListner();
+        alert('ENABLE COLUMN CLICK');
+        console.log('ENABLE COLUMN CLICK');
         this.showToolTip = false;
         this.showEnableColumnFilter = !this.showEnableColumnFilter;
         this.showGroupByColumn = false;
