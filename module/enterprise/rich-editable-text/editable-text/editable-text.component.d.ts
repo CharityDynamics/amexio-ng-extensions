@@ -1,0 +1,34 @@
+import { AfterViewInit } from '@angular/core';
+export declare class EditableTextComponent implements AfterViewInit {
+    headingData: any;
+    editableTextArray: any;
+    fontFamilyData: any;
+    displayDiv: boolean;
+    printContents: any;
+    areaWidth: number;
+    areaHeight: number;
+    selectHeader: any;
+    richHeight: number;
+    enableSourceCode: boolean;
+    toolbarPosition: string;
+    richContentMain: any;
+    onSourceCodeClick: any;
+    richDiv: any;
+    headerId: any;
+    fontFamily: any;
+    richEditableId: any;
+    favColorId: any;
+    backColorId: any;
+    textAreaHeight: number;
+    constructor();
+    ngAfterViewInit(): void;
+    onEditableTextEvent(): void;
+    onIconClick(data: any): void;
+    onHtmlCodeClick(): void;
+    onColorBtnClick(): void;
+    onBgColorClick(): void;
+    foreColorClick(): void;
+    backgroundColorClick(): void;
+    fontFamilySelectionClick(): void;
+    selectHeaderClick(): void;
+}

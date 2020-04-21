@@ -1,0 +1,32 @@
+import { AfterViewInit, EventEmitter, OnInit } from '@angular/core';
+import { MultiDateRangePicker } from './multirangedatepicker.component.model';
+export declare class AmexioMultiRangePickerComponent implements OnInit, AfterViewInit {
+    dateRangePickerFlag: boolean;
+    newFromDate: Date;
+    newToDate: Date;
+    customRange: any[];
+    fromCardSelected: boolean;
+    toCardSelected: boolean;
+    daysOptionToday: any;
+    daysOptionYesterday: any;
+    todayIconFlag: boolean;
+    yesterdayIconFlag: boolean;
+    disabledChkedIndex: number;
+    showMultiRangePicker: boolean;
+    multiDateRangePickerModel: MultiDateRangePicker;
+    disabledDates: any;
+    change: EventEmitter<any>;
+    child: any;
+    constructor();
+    ngOnInit(): void;
+    ngAfterViewInit(): void;
+    updateFromTodate(): void;
+    chkDisableddate(incrementedDate: Date): boolean;
+    clearSelectedFlag(): void;
+    alterCompleteDaysArray(incdate: Date): void;
+    selectRangeOption(option: any): void;
+    ResetDaysTillToday(): void;
+    ResetDaysTillYesterday(): void;
+    onDateClick(event: any): void;
+    openPicker(): void;
+}

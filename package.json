@@ -1,0 +1,47 @@
+{
+  "name": "amexio-ng-extensions",
+  "version": "5.20.0",
+  "description": "Angular UI library",
+  "keywords": [
+    "amexio",
+    "metamagic",
+    "angular",
+    "ng",
+    "ng5",
+    "html",
+    "js",
+    "css"
+  ],
+  "author": {
+    "name": "MetaMagic Global",
+    "url": "https://www.metamagicglobal.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/meta-magic/amexio.github.io"
+  },
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/meta-magic/amexio.github.io/issues"
+  },
+  "homepage": "https://www.amexio.tech/",
+  "main": "bundles/amexio-ng-extensions.umd.js",
+  "module": "amexio-ng-extensions.es5.js",
+  "es2015": "amexio-ng-extensions.js",
+  "typings": "amexio-ng-extensions.d.ts",
+  "peerDependencies": {
+    "@angular/cdk": "^8.2.3",
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "@angular/forms": "^7.2.0",
+    "@angular/http": "^7.2.0",
+    "@angular/material": "^7.2.0",
+    "@angular/platform-browser": "^7.2.0",
+    "@angular/router": "^7.2.0",
+    "angular-font-awesome": "^3.1.2",
+    "font-awesome": "^4.7.0",
+    "rxjs-tslint": "^0.1.7",
+    "tsickle": "^0.35.0",
+    "tslint-sonarts": "^1.7.0"
+  }
+}
