@@ -62748,6 +62748,9 @@ var AmexioDatagridComponent = /** @class */ (function (_super) {
             this.columns = this.columndefintion;
         }
         this.fliterFlag = false;
+        if (this.sortColumn) {
+            this.setSortColumn(this.sortColumn, this.sortBy);
+        }
     };
     /**
      * @return {?}

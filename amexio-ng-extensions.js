@@ -59917,6 +59917,9 @@ class AmexioDatagridComponent extends LifeCycleBaseComponent {
             this.columns = this.columndefintion;
         }
         this.fliterFlag = false;
+        if (this.sortColumn) {
+            this.setSortColumn(this.sortColumn, this.sortBy);
+        }
     }
     /**
      * @return {?}
