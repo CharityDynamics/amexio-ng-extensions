@@ -28644,7 +28644,9 @@ var AmexioFormValidator = /** @class */ (function () {
      * @return {?}
      */
     function (inputType, name) {
-        return inputType + '_' + name + '_' + window.crypto.getRandomValues(new Uint32Array(1))[0];
+        /** @type {?} */
+        var browserCrypto = window.crypto || ((/** @type {?} */ (window['msCrypto'])));
+        return inputType + '_' + name + '_' + browserCrypto.getRandomValues(new Uint32Array(1))[0];
     };
     return AmexioFormValidator;
 }());
@@ -28760,7 +28762,11 @@ var AmexioCheckBoxComponent = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        this.value = !this.value;
+        /** @type {?} */
+        var browsertype = window.navigator.userAgent;
+        if ((browsertype.indexOf('MSIE') <= 0) && (browsertype.indexOf('Trident/') <= 0) && (browsertype.indexOf('Edge/') <= 0)) {
+            this.value = !this.value;
+        }
         this.isValid = this.value;
         this.isComponentValid.emit(this.value);
         this.onSelection.emit(this.value);
@@ -28925,8 +28931,10 @@ var AmexioCheckBoxComponent = /** @class */ (function (_super) {
         var possibleCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         /** @type {?} */
         var randomString = '';
+        /** @type {?} */
+        var browserCrypto = window.crypto || ((/** @type {?} */ (window['msCrypto'])));
         for (var i = 0; i < 6; i++) {
-            randomString += possibleCharacters.charAt(window.crypto.getRandomValues(new Uint32Array(1))[0] * possibleCharacters.length);
+            randomString += possibleCharacters.charAt(browserCrypto.getRandomValues(new Uint32Array(1))[0] * possibleCharacters.length);
         }
         return randomString;
     };
@@ -36575,7 +36583,9 @@ var CheckboxComponent = /** @class */ (function () {
      * @return {?}
      */
     function (inputType, name) {
-        return inputType + '_' + name + '_' + window.crypto.getRandomValues(new Uint32Array(1))[0];
+        /** @type {?} */
+        var browserCrypto = window.crypto || ((/** @type {?} */ (window['msCrypto'])));
+        return inputType + '_' + name + '_' + browserCrypto.getRandomValues(new Uint32Array(1))[0];
     };
     CheckboxComponent.decorators = [
         { type: i0.Component, args: [{
@@ -62705,8 +62715,10 @@ var AmexioDatagridComponent = /** @class */ (function (_super) {
             this.previousData = JSON.parse(JSON.stringify(this.data));
         }
         this.componentLoaded = true;
-        this.componentId = 'gridcolumn' + window.crypto.getRandomValues(new Uint32Array(1))[0];
-        this.gridId = 'grid' + window.crypto.getRandomValues(new Uint32Array(1))[0];
+        /** @type {?} */
+        var browserCrypto = window.crypto || ((/** @type {?} */ (window['msCrypto'])));
+        this.componentId = 'gridcolumn' + browserCrypto.getRandomValues(new Uint32Array(1))[0];
+        this.gridId = 'grid' + browserCrypto.getRandomValues(new Uint32Array(1))[0];
     };
     /**
      * @return {?}
