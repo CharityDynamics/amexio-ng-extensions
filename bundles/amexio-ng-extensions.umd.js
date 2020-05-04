@@ -63901,12 +63901,12 @@ var AmexioDatagridComponent = /** @class */ (function (_super) {
             /** @type {?} */
             var y;
             if (_this.sortColumn.dataindex.includes('.')) {
-                x = _this.sortInnerFunc(_this.sortColumn.dataindex, a).toLowerCase();
-                y = _this.sortInnerFunc(_this.sortColumn.dataindex, b).toLowerCase();
+                x = [_this.sortInnerFunc(_this.sortColumn.dataindex, a).toLowerCase(), a.id];
+                y = [_this.sortInnerFunc(_this.sortColumn.dataindex, b).toLowerCase(), b.id];
             }
             else {
-                x = a[sortColDataIndex].toLowerCase();
-                y = b[sortColDataIndex].toLowerCase();
+                x = [a[sortColDataIndex].toLowerCase(), a.id];
+                y = [b[sortColDataIndex].toLowerCase(), b.id];
             }
             return _this.noGrpBySortOrder(sortOrder, x, y);
         }));
@@ -64029,19 +64029,27 @@ var AmexioDatagridComponent = /** @class */ (function (_super) {
      * @return {?}
      */
     function (sortOrder, x, y) {
-        if (sortOrder === 2) {
-            if (x < y) {
+        if (x[0] === y[0]) {
+            if (x[1] < y[1]) {
+                return -1;
+            }
+            if (x[1] > y[1]) {
                 return 1;
             }
-            if (x > y) {
+        }
+        if (sortOrder === 2) {
+            if (x[0] < y[0]) {
+                return 1;
+            }
+            if (x[0] > y[0]) {
                 return -1;
             }
         }
         else {
-            if (x < y) {
+            if (x[0] < y[0]) {
                 return -1;
             }
-            if (x > y) {
+            if (x[0] > y[0]) {
                 return 1;
             }
         }
