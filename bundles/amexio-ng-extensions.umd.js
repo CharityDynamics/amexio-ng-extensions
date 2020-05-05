@@ -38035,12 +38035,14 @@ var ListBaseDatepickerComponent = /** @class */ (function (_super) {
                 { year: 0, flag: false, disabled: false },
             ];
         // generate yearlist1 ids
+        /** @type {?} */
+        var browserCrypto = window.crypto || ((/** @type {?} */ (window['msCrypto'])));
         this.yearList1.forEach((/**
          * @param {?} yearlist1element
          * @return {?}
          */
         function (yearlist1element) {
-            yearlist1element['id'] = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295 + '_id';
+            yearlist1element['id'] = browserCrypto.getRandomValues(new Uint32Array(1))[0] / 4294967295 + '_id';
         }));
         this.yearList2 = [{ year: 0, flag: false, disabled: false }, { year: 0, flag: false, disabled: false },
             { year: 0, flag: false, disabled: false }, { year: 0, flag: false, disabled: false },
@@ -38051,7 +38053,7 @@ var ListBaseDatepickerComponent = /** @class */ (function (_super) {
          * @return {?}
          */
         function (yearlist2element) {
-            yearlist2element['id'] = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295 + '_id';
+            yearlist2element['id'] = browserCrypto.getRandomValues(new Uint32Array(1))[0] / 4294967295 + '_id';
         }));
         this.monthList1 = [
             { name: 'Jan', flag: false, num: 4, fullname: 'January' },
@@ -38067,7 +38069,7 @@ var ListBaseDatepickerComponent = /** @class */ (function (_super) {
          * @return {?}
          */
         function (monthlist1element) {
-            monthlist1element['id'] = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295 + '_id';
+            monthlist1element['id'] = browserCrypto.getRandomValues(new Uint32Array(1))[0] / 4294967295 + '_id';
         }));
         this.monthList2 = [
             { name: 'Jul', flag: false, fullname: 'july' },
@@ -38083,7 +38085,7 @@ var ListBaseDatepickerComponent = /** @class */ (function (_super) {
          * @return {?}
          */
         function (monthlist2element) {
-            monthlist2element['id'] = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295 + '_id';
+            monthlist2element['id'] = browserCrypto.getRandomValues(new Uint32Array(1))[0] / 4294967295 + '_id';
         }));
         this.curYear = this.currrentDate.getFullYear();
         /** @type {?} */
@@ -38317,7 +38319,9 @@ var ListBaseDatepickerComponent = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        return Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0]) + '_id';
+        /** @type {?} */
+        var browserCrypto = window.crypto || ((/** @type {?} */ (window['msCrypto'])));
+        return Math.floor(browserCrypto.getRandomValues(new Uint32Array(1))[0]) + '_id';
     };
     return ListBaseDatepickerComponent;
 }(AmexioFormValidator));
