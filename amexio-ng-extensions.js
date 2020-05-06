@@ -71197,6 +71197,56 @@ class ColumnChartComponent {
         }
     }
     /**
+     * @param {?} count
+     * @return {?}
+     */
+    createChartColumns(count) {
+        /** @type {?} */
+        const columnValues = [];
+        for (let i = 0; i < count; i++) {
+            columnValues.push(i);
+            if (i > 0) {
+                columnValues.push({ calc: (/**
+                     * @param {?} dt
+                     * @param {?} row
+                     * @return {?}
+                     */
+                    (dt, row) => {
+                        /** @type {?} */
+                        const curVal = dt.getFormattedValue(row, i);
+                        if (curVal !== 0 && curVal !== '$0.00' && curVal !== '0.0') {
+                            return curVal;
+                        }
+                        return null;
+                    }),
+                    sourceColumn: i,
+                    type: 'string',
+                    role: 'annotation' });
+            }
+        }
+        return columnValues;
+    }
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    isCurrency(item) {
+        /** @type {?} */
+        let isCurrency = false;
+        item.forEach((/**
+         * @param {?} object
+         * @return {?}
+         */
+        (object) => {
+            if (typeof (object) === 'object') {
+                if (object.hasOwnProperty('f') && object.f.includes('$')) {
+                    isCurrency = true;
+                }
+            }
+        }));
+        return isCurrency;
+    }
+    /**
      * @return {?}
      */
     drawChart() {
@@ -71209,11 +71259,20 @@ class ColumnChartComponent {
                 backgroundcolor: this.backgroundcolor,
                 legend: this.chartLengendComponent ? this.chartLegendStyle() : 'none',
                 chartArea: this.chartAreaComponent ? this.chartBackGroundColor() : null,
+                colors: ['#F08801', '#3ABCD6', '#48494B'],
             };
+            if (this.isCurrency(this._data[1])) {
+                this.options.vAxis = { format: 'currency' };
+            }
+            /** @type {?} */
+            const view = new google.visualization.DataView(this.columnData);
+            /** @type {?} */
+            const countOfColumns = this._data[0].length;
+            view.setColumns(this.createChartColumns(countOfColumns));
             if (this.columnData) {
                 this.chart = new google.visualization.ColumnChart(this.columnchart.nativeElement);
                 this.hasLoaded = true;
-                this.chart.draw(this.columnData, this.options);
+                this.chart.draw(view, this.options);
                 google.visualization.events.addListener(this.chart, 'click', this.onClick);
             }
         }
@@ -71323,20 +71382,25 @@ class ColumnChartComponent {
      */
     ngOnInit() {
         this.hasLoaded = false;
-        this.loader.loadCharts('ColumnChart').subscribe((/**
-         * @param {?} value
-         * @return {?}
-         */
-        (value) => console.log()), (/**
-         * @param {?} errror
-         * @return {?}
-         */
-        (errror) => console.error(errror)), (/**
+        setTimeout((/**
          * @return {?}
          */
         () => {
-            this.drawChart();
-        }));
+            this.loader.loadCharts('ColumnChart').subscribe((/**
+             * @param {?} value
+             * @return {?}
+             */
+            (value) => console.log()), (/**
+             * @param {?} errror
+             * @return {?}
+             */
+            (errror) => console.error(errror)), (/**
+             * @return {?}
+             */
+            () => {
+                this.drawChart();
+            }));
+        }), 500);
     }
     /**
      * @param {?} event
@@ -72743,6 +72807,26 @@ class LineChartComponent {
         }
     }
     /**
+     * @param {?} item
+     * @return {?}
+     */
+    isCurrency(item) {
+        /** @type {?} */
+        let isCurrency = false;
+        item.forEach((/**
+         * @param {?} object
+         * @return {?}
+         */
+        (object) => {
+            if (typeof (object) === 'object') {
+                if (object.hasOwnProperty('f') && object.f.includes('$')) {
+                    isCurrency = true;
+                }
+            }
+        }));
+        return isCurrency;
+    }
+    /**
      * @return {?}
      */
     drawChart() {
@@ -72754,7 +72838,11 @@ class LineChartComponent {
                 backgroundcolor: this.backgroundcolor,
                 legend: this.chartLengendComponent ? this.chartLegendStyle() : 'none',
                 chartArea: this.chartAreaComponent ? this.chartBackgroundStyle() : null,
+                colors: ['#F08801', '#3ABCD6', '#48494B'],
             };
+            if (this.isCurrency(this._data[1])) {
+                this.options.vAxis = { format: 'currency' };
+            }
             if (this.lineData) {
                 this.chart = new google.visualization.LineChart(this.linechart.nativeElement);
                 this.hasLoaded = true;

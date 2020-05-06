@@ -36,6 +36,13 @@ export declare class ColumnChartComponent implements AfterContentInit, OnInit {
     chartTitleComponent: ChartTitleComponent;
     private columnchart;
     constructor(loader: ChartLoaderService);
+    createChartColumns(count: any): (number | {
+        calc: (dt: any, row: any) => any;
+        sourceColumn: number;
+        type: string;
+        role: string;
+    })[];
+    isCurrency(item: any): boolean;
     drawChart(): void;
     chartTitleTextStyle(): {
         color: string;

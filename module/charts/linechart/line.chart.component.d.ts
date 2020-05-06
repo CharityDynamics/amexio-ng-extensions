@@ -35,6 +35,7 @@ export declare class LineChartComponent implements AfterContentInit, OnInit {
     chartTitleComponent: ChartTitleComponent;
     private linechart;
     constructor(loader: ChartLoaderService);
+    isCurrency(item: any): boolean;
     drawChart(): void;
     chartTitleTextStyle(): {
         color: string;

@@ -74270,6 +74270,67 @@ var ColumnChartComponent = /** @class */ (function () {
         configurable: true
     });
     /**
+     * @param {?} count
+     * @return {?}
+     */
+    ColumnChartComponent.prototype.createChartColumns = /**
+     * @param {?} count
+     * @return {?}
+     */
+    function (count) {
+        /** @type {?} */
+        var columnValues = [];
+        var _loop_1 = function (i) {
+            columnValues.push(i);
+            if (i > 0) {
+                columnValues.push({ calc: (/**
+                     * @param {?} dt
+                     * @param {?} row
+                     * @return {?}
+                     */
+                    function (dt, row) {
+                        /** @type {?} */
+                        var curVal = dt.getFormattedValue(row, i);
+                        if (curVal !== 0 && curVal !== '$0.00' && curVal !== '0.0') {
+                            return curVal;
+                        }
+                        return null;
+                    }),
+                    sourceColumn: i,
+                    type: 'string',
+                    role: 'annotation' });
+            }
+        };
+        for (var i = 0; i < count; i++) {
+            _loop_1(i);
+        }
+        return columnValues;
+    };
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    ColumnChartComponent.prototype.isCurrency = /**
+     * @param {?} item
+     * @return {?}
+     */
+    function (item) {
+        /** @type {?} */
+        var isCurrency = false;
+        item.forEach((/**
+         * @param {?} object
+         * @return {?}
+         */
+        function (object) {
+            if (typeof (object) === 'object') {
+                if (object.hasOwnProperty('f') && object.f.includes('$')) {
+                    isCurrency = true;
+                }
+            }
+        }));
+        return isCurrency;
+    };
+    /**
      * @return {?}
      */
     ColumnChartComponent.prototype.drawChart = /**
@@ -74285,11 +74346,20 @@ var ColumnChartComponent = /** @class */ (function () {
                 backgroundcolor: this.backgroundcolor,
                 legend: this.chartLengendComponent ? this.chartLegendStyle() : 'none',
                 chartArea: this.chartAreaComponent ? this.chartBackGroundColor() : null,
+                colors: ['#F08801', '#3ABCD6', '#48494B'],
             };
+            if (this.isCurrency(this._data[1])) {
+                this.options.vAxis = { format: 'currency' };
+            }
+            /** @type {?} */
+            var view = new google.visualization.DataView(this.columnData);
+            /** @type {?} */
+            var countOfColumns = this._data[0].length;
+            view.setColumns(this.createChartColumns(countOfColumns));
             if (this.columnData) {
                 this.chart = new google.visualization.ColumnChart(this.columnchart.nativeElement);
                 this.hasLoaded = true;
-                this.chart.draw(this.columnData, this.options);
+                this.chart.draw(view, this.options);
                 google.visualization.events.addListener(this.chart, 'click', this.onClick);
             }
         }
@@ -74429,20 +74499,25 @@ var ColumnChartComponent = /** @class */ (function () {
     function () {
         var _this = this;
         this.hasLoaded = false;
-        this.loader.loadCharts('ColumnChart').subscribe((/**
-         * @param {?} value
-         * @return {?}
-         */
-        function (value) { return console.log(); }), (/**
-         * @param {?} errror
-         * @return {?}
-         */
-        function (errror) { return console.error(errror); }), (/**
+        setTimeout((/**
          * @return {?}
          */
         function () {
-            _this.drawChart();
-        }));
+            _this.loader.loadCharts('ColumnChart').subscribe((/**
+             * @param {?} value
+             * @return {?}
+             */
+            function (value) { return console.log(); }), (/**
+             * @param {?} errror
+             * @return {?}
+             */
+            function (errror) { return console.error(errror); }), (/**
+             * @return {?}
+             */
+            function () {
+                _this.drawChart();
+            }));
+        }), 500);
     };
     /**
      * @param {?} event
@@ -75453,6 +75528,30 @@ var LineChartComponent = /** @class */ (function () {
         configurable: true
     });
     /**
+     * @param {?} item
+     * @return {?}
+     */
+    LineChartComponent.prototype.isCurrency = /**
+     * @param {?} item
+     * @return {?}
+     */
+    function (item) {
+        /** @type {?} */
+        var isCurrency = false;
+        item.forEach((/**
+         * @param {?} object
+         * @return {?}
+         */
+        function (object) {
+            if (typeof (object) === 'object') {
+                if (object.hasOwnProperty('f') && object.f.includes('$')) {
+                    isCurrency = true;
+                }
+            }
+        }));
+        return isCurrency;
+    };
+    /**
      * @return {?}
      */
     LineChartComponent.prototype.drawChart = /**
@@ -75467,7 +75566,11 @@ var LineChartComponent = /** @class */ (function () {
                 backgroundcolor: this.backgroundcolor,
                 legend: this.chartLengendComponent ? this.chartLegendStyle() : 'none',
                 chartArea: this.chartAreaComponent ? this.chartBackgroundStyle() : null,
+                colors: ['#F08801', '#3ABCD6', '#48494B'],
             };
+            if (this.isCurrency(this._data[1])) {
+                this.options.vAxis = { format: 'currency' };
+            }
             if (this.lineData) {
                 this.chart = new google.visualization.LineChart(this.linechart.nativeElement);
                 this.hasLoaded = true;
