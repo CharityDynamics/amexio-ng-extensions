@@ -5,18 +5,18 @@
 }(this, (function (exports,common,i0,platformBrowser,forms) { 'use strict';
 
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
@@ -74281,8 +74281,7 @@ var ColumnChartComponent = /** @class */ (function () {
         /** @type {?} */
         var columnValues = [];
         var _loop_1 = function (i) {
-            columnValues.push(i);
-            if (i > 0) {
+            if (i === 0) {
                 columnValues.push({ calc: (/**
                      * @param {?} dt
                      * @param {?} row
@@ -74291,7 +74290,31 @@ var ColumnChartComponent = /** @class */ (function () {
                     function (dt, row) {
                         /** @type {?} */
                         var curVal = dt.getFormattedValue(row, i);
-                        if (curVal !== 0 && curVal !== '$0.00' && curVal !== '0.0') {
+                        /** @type {?} */
+                        var splitted = curVal.split('-', 2);
+                        /** @type {?} */
+                        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        /** @type {?} */
+                        var label = '';
+                        /** @type {?} */
+                        var indexValue = parseInt(splitted[0], 10) + 1;
+                        label = months[indexValue] + ' ' + splitted[1];
+                        return label;
+                    }),
+                    sourceColumn: i,
+                    type: 'string' });
+            }
+            if (i > 0) {
+                columnValues.push(i);
+                columnValues.push({ calc: (/**
+                     * @param {?} dt
+                     * @param {?} row
+                     * @return {?}
+                     */
+                    function (dt, row) {
+                        /** @type {?} */
+                        var curVal = dt.getFormattedValue(row, i);
+                        if (curVal !== 0 && curVal !== '$0.00' && curVal !== '0.0' && curVal !== '0') {
                             return curVal;
                         }
                         return null;
@@ -74346,7 +74369,7 @@ var ColumnChartComponent = /** @class */ (function () {
                 backgroundcolor: this.backgroundcolor,
                 legend: this.chartLengendComponent ? this.chartLegendStyle() : 'none',
                 chartArea: this.chartAreaComponent ? this.chartBackGroundColor() : null,
-                colors: ['#F08801', '#3ABCD6', '#48494B'],
+                colors: ['#48494B', '#3ABCD6', '#F08801'],
             };
             if (this.isCurrency(this._data[1])) {
                 this.options.vAxis = { format: 'currency' };
@@ -75566,7 +75589,7 @@ var LineChartComponent = /** @class */ (function () {
                 backgroundcolor: this.backgroundcolor,
                 legend: this.chartLengendComponent ? this.chartLegendStyle() : 'none',
                 chartArea: this.chartAreaComponent ? this.chartBackgroundStyle() : null,
-                colors: ['#F08801', '#3ABCD6', '#48494B'],
+                colors: ['#48494B', '#3ABCD6', '#F08801'],
             };
             if (this.isCurrency(this._data[1])) {
                 this.options.vAxis = { format: 'currency' };
@@ -75683,6 +75706,8 @@ var LineChartComponent = /** @class */ (function () {
         var data = new google.visualization.DataTable();
         /** @type {?} */
         var labelObject = dupArray[0];
+        /** @type {?} */
+        var isDate = false;
         // remove first object of array
         dupArray.shift();
         labelObject.forEach((/**
@@ -75691,6 +75716,9 @@ var LineChartComponent = /** @class */ (function () {
          */
         function (datatypeObject) {
             data.addColumn(datatypeObject.datatype, datatypeObject.label);
+            if (datatypeObject.datatype === 'date') {
+                isDate = true;
+            }
         }));
         /** @type {?} */
         var finalArray = [];
@@ -75699,9 +75727,15 @@ var LineChartComponent = /** @class */ (function () {
          * @return {?}
          */
         function (rowObject) {
+            if (isDate) {
+                rowObject[0] = new Date(rowObject[0]);
+            }
             finalArray.push(rowObject);
         }));
         data.addRows(finalArray);
+        /** @type {?} */
+        var monthYearFormatter = new google.visualization.DateFormat({ pattern: 'MMM yyyy' });
+        monthYearFormatter.format(data, 0);
         return data;
     };
     /**
@@ -75713,20 +75747,25 @@ var LineChartComponent = /** @class */ (function () {
     function () {
         var _this = this;
         this.hasLoaded = false;
-        this.loader.loadCharts('LineChart').subscribe((/**
-         * @param {?} value
-         * @return {?}
-         */
-        function (value) { return console.log(); }), (/**
-         * @param {?} error
-         * @return {?}
-         */
-        function (error) { return console.error(error); }), (/**
+        setTimeout((/**
          * @return {?}
          */
         function () {
-            _this.drawChart();
-        }));
+            _this.loader.loadCharts('LineChart').subscribe((/**
+             * @param {?} value
+             * @return {?}
+             */
+            function (value) { return console.log(); }), (/**
+             * @param {?} error
+             * @return {?}
+             */
+            function (error) { return console.error(error); }), (/**
+             * @return {?}
+             */
+            function () {
+                _this.drawChart();
+            }));
+        }), 500);
     };
     /**
      * @param {?} event

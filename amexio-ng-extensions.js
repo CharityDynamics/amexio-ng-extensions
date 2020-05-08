@@ -4,18 +4,18 @@ import { DomSanitizer, Meta, ɵgetDOM } from '@angular/platform-browser';
 import { FormBuilder, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, NgForm, NgModel, ReactiveFormsModule } from '@angular/forms';
 
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
@@ -71204,8 +71204,7 @@ class ColumnChartComponent {
         /** @type {?} */
         const columnValues = [];
         for (let i = 0; i < count; i++) {
-            columnValues.push(i);
-            if (i > 0) {
+            if (i === 0) {
                 columnValues.push({ calc: (/**
                      * @param {?} dt
                      * @param {?} row
@@ -71214,7 +71213,31 @@ class ColumnChartComponent {
                     (dt, row) => {
                         /** @type {?} */
                         const curVal = dt.getFormattedValue(row, i);
-                        if (curVal !== 0 && curVal !== '$0.00' && curVal !== '0.0') {
+                        /** @type {?} */
+                        const splitted = curVal.split('-', 2);
+                        /** @type {?} */
+                        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        /** @type {?} */
+                        let label = '';
+                        /** @type {?} */
+                        const indexValue = parseInt(splitted[0], 10) + 1;
+                        label = months[indexValue] + ' ' + splitted[1];
+                        return label;
+                    }),
+                    sourceColumn: i,
+                    type: 'string' });
+            }
+            if (i > 0) {
+                columnValues.push(i);
+                columnValues.push({ calc: (/**
+                     * @param {?} dt
+                     * @param {?} row
+                     * @return {?}
+                     */
+                    (dt, row) => {
+                        /** @type {?} */
+                        const curVal = dt.getFormattedValue(row, i);
+                        if (curVal !== 0 && curVal !== '$0.00' && curVal !== '0.0' && curVal !== '0') {
                             return curVal;
                         }
                         return null;
@@ -71259,7 +71282,7 @@ class ColumnChartComponent {
                 backgroundcolor: this.backgroundcolor,
                 legend: this.chartLengendComponent ? this.chartLegendStyle() : 'none',
                 chartArea: this.chartAreaComponent ? this.chartBackGroundColor() : null,
-                colors: ['#F08801', '#3ABCD6', '#48494B'],
+                colors: ['#48494B', '#3ABCD6', '#F08801'],
             };
             if (this.isCurrency(this._data[1])) {
                 this.options.vAxis = { format: 'currency' };
@@ -72838,7 +72861,7 @@ class LineChartComponent {
                 backgroundcolor: this.backgroundcolor,
                 legend: this.chartLengendComponent ? this.chartLegendStyle() : 'none',
                 chartArea: this.chartAreaComponent ? this.chartBackgroundStyle() : null,
-                colors: ['#F08801', '#3ABCD6', '#48494B'],
+                colors: ['#48494B', '#3ABCD6', '#F08801'],
             };
             if (this.isCurrency(this._data[1])) {
                 this.options.vAxis = { format: 'currency' };
@@ -72929,6 +72952,8 @@ class LineChartComponent {
         const data = new google.visualization.DataTable();
         /** @type {?} */
         const labelObject = dupArray[0];
+        /** @type {?} */
+        let isDate = false;
         // remove first object of array
         dupArray.shift();
         labelObject.forEach((/**
@@ -72937,6 +72962,9 @@ class LineChartComponent {
          */
         (datatypeObject) => {
             data.addColumn(datatypeObject.datatype, datatypeObject.label);
+            if (datatypeObject.datatype === 'date') {
+                isDate = true;
+            }
         }));
         /** @type {?} */
         const finalArray = [];
@@ -72945,9 +72973,15 @@ class LineChartComponent {
          * @return {?}
          */
         (rowObject) => {
+            if (isDate) {
+                rowObject[0] = new Date(rowObject[0]);
+            }
             finalArray.push(rowObject);
         }));
         data.addRows(finalArray);
+        /** @type {?} */
+        const monthYearFormatter = new google.visualization.DateFormat({ pattern: 'MMM yyyy' });
+        monthYearFormatter.format(data, 0);
         return data;
     }
     /**
@@ -72955,20 +72989,25 @@ class LineChartComponent {
      */
     ngOnInit() {
         this.hasLoaded = false;
-        this.loader.loadCharts('LineChart').subscribe((/**
-         * @param {?} value
-         * @return {?}
-         */
-        (value) => console.log()), (/**
-         * @param {?} error
-         * @return {?}
-         */
-        (error) => console.error(error)), (/**
+        setTimeout((/**
          * @return {?}
          */
         () => {
-            this.drawChart();
-        }));
+            this.loader.loadCharts('LineChart').subscribe((/**
+             * @param {?} value
+             * @return {?}
+             */
+            (value) => console.log()), (/**
+             * @param {?} error
+             * @return {?}
+             */
+            (error) => console.error(error)), (/**
+             * @return {?}
+             */
+            () => {
+                this.drawChart();
+            }));
+        }), 500);
     }
     /**
      * @param {?} event

@@ -37,6 +37,11 @@ export declare class ColumnChartComponent implements AfterContentInit, OnInit {
     private columnchart;
     constructor(loader: ChartLoaderService);
     createChartColumns(count: any): (number | {
+        calc: (dt: any, row: any) => string;
+        sourceColumn: number;
+        type: string;
+        role?: undefined;
+    } | {
         calc: (dt: any, row: any) => any;
         sourceColumn: number;
         type: string;
