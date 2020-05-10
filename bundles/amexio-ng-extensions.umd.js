@@ -74228,6 +74228,14 @@ var ColumnChartComponent = /** @class */ (function () {
         description : If set to true, stacks the elements for all series at each domain value.default value is false
         */
         this.stacked = false;
+        /*
+        Properties
+        name : showAnnotations
+        datatype : boolean
+        default : false
+        description : If set to true, annotations that are greater than 0 will be shown
+        */
+        this.showAnnotations = false;
         this.width = '100%';
     }
     Object.defineProperty(ColumnChartComponent.prototype, "data", {
@@ -74297,7 +74305,7 @@ var ColumnChartComponent = /** @class */ (function () {
                         /** @type {?} */
                         var label = '';
                         /** @type {?} */
-                        var indexValue = parseInt(splitted[0], 10) + 1;
+                        var indexValue = parseInt(splitted[0], 10) - 1;
                         label = months[indexValue] + ' ' + splitted[1];
                         return label;
                     }),
@@ -74306,24 +74314,27 @@ var ColumnChartComponent = /** @class */ (function () {
             }
             if (i > 0) {
                 columnValues.push(i);
-                columnValues.push({ calc: (/**
-                     * @param {?} dt
-                     * @param {?} row
-                     * @return {?}
-                     */
-                    function (dt, row) {
-                        /** @type {?} */
-                        var curVal = dt.getFormattedValue(row, i);
-                        if (curVal !== 0 && curVal !== '$0.00' && curVal !== '0.0' && curVal !== '0') {
-                            return curVal;
-                        }
-                        return null;
-                    }),
-                    sourceColumn: i,
-                    type: 'string',
-                    role: 'annotation' });
+                if (this_1.showAnnotations) {
+                    columnValues.push({ calc: (/**
+                         * @param {?} dt
+                         * @param {?} row
+                         * @return {?}
+                         */
+                        function (dt, row) {
+                            /** @type {?} */
+                            var curVal = dt.getFormattedValue(row, i);
+                            if (curVal !== 0 && curVal !== '$0.00' && curVal !== '0.0' && curVal !== '0') {
+                                return curVal;
+                            }
+                            return null;
+                        }),
+                        sourceColumn: i,
+                        type: 'string',
+                        role: 'annotation' });
+                }
             }
         };
+        var this_1 = this;
         for (var i = 0; i < count; i++) {
             _loop_1(i);
         }
@@ -74567,6 +74578,7 @@ var ColumnChartComponent = /** @class */ (function () {
         height: [{ type: i0.Input }],
         data: [{ type: i0.Input, args: ['data',] }],
         stacked: [{ type: i0.Input }],
+        showAnnotations: [{ type: i0.Input }],
         backgroundcolor: [{ type: i0.Input, args: ['background-color',] }],
         chartLegendComp: [{ type: i0.ContentChildren, args: [ChartLegendComponent,] }],
         chartTitleComp: [{ type: i0.ContentChildren, args: [ChartTitleComponent,] }],

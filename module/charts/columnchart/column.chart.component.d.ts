@@ -23,6 +23,7 @@ export declare class ColumnChartComponent implements AfterContentInit, OnInit {
     */
     data: any;
     stacked: boolean;
+    showAnnotations: boolean;
     backgroundcolor: string;
     hasLoaded: boolean;
     chartLegendComp: QueryList<ChartLegendComponent>;
