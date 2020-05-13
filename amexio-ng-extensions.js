@@ -71433,7 +71433,7 @@ class ColumnChartComponent {
             () => {
                 this.drawChart();
             }));
-        }), 500);
+        }), 1300);
     }
     /**
      * @param {?} event
@@ -73018,7 +73018,7 @@ class LineChartComponent {
             () => {
                 this.drawChart();
             }));
-        }), 500);
+        }), 1300);
     }
     /**
      * @param {?} event
