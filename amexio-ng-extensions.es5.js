@@ -74550,7 +74550,7 @@ var ColumnChartComponent = /** @class */ (function () {
             function () {
                 _this.drawChart();
             }));
-        }), 1300);
+        }), 2300);
     };
     /**
      * @param {?} event
@@ -75776,7 +75776,7 @@ var LineChartComponent = /** @class */ (function () {
             function () {
                 _this.drawChart();
             }));
-        }), 1300);
+        }), 2300);
     };
     /**
      * @param {?} event
