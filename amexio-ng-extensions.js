@@ -72985,7 +72985,11 @@ class LineChartComponent {
          */
         (rowObject) => {
             if (isDate) {
-                rowObject[0] = new Date(rowObject[0]);
+                /** @type {?} */
+                const splitVal = rowObject[0].split('-');
+                /** @type {?} */
+                const stringDate = splitVal[2] + '-' + splitVal[0] + '-' + splitVal[1];
+                rowObject[0] = new Date(stringDate);
             }
             finalArray.push(rowObject);
         }));

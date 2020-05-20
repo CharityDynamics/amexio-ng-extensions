@@ -75739,7 +75739,11 @@ var LineChartComponent = /** @class */ (function () {
          */
         function (rowObject) {
             if (isDate) {
-                rowObject[0] = new Date(rowObject[0]);
+                /** @type {?} */
+                var splitVal = rowObject[0].split('-');
+                /** @type {?} */
+                var stringDate = splitVal[2] + '-' + splitVal[0] + '-' + splitVal[1];
+                rowObject[0] = new Date(stringDate);
             }
             finalArray.push(rowObject);
         }));
