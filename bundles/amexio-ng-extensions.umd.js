@@ -75743,7 +75743,7 @@ var LineChartComponent = /** @class */ (function () {
                 /** @type {?} */
                 var splitVal = rowObject[0].split('-');
                 /** @type {?} */
-                var stringDate = splitVal[2] + '-' + splitVal[0] + '-' + splitVal[1];
+                var stringDate = splitVal[2] + '-' + splitVal[0] + '-02';
                 rowObject[0] = new Date(stringDate);
             }
             finalArray.push(rowObject);
