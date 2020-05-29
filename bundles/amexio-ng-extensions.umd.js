@@ -75740,11 +75740,13 @@ var LineChartComponent = /** @class */ (function () {
          */
         function (rowObject) {
             if (isDate) {
-                /** @type {?} */
-                var splitVal = rowObject[0].split('-');
-                /** @type {?} */
-                var stringDate = splitVal[2] + '-' + splitVal[0] + '-02';
-                rowObject[0] = new Date(stringDate);
+                if (typeof rowObject[0] === 'string') {
+                    /** @type {?} */
+                    var splitVal = rowObject[0].split('-');
+                    /** @type {?} */
+                    var stringDate = splitVal[2] + '-' + splitVal[0] + '-02';
+                    rowObject[0] = new Date(stringDate);
+                }
             }
             finalArray.push(rowObject);
         }));
