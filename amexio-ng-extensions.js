@@ -59338,6 +59338,7 @@ class DataGridFilterComponent {
           */
         this.filterObject = new EventEmitter();
         this.onFilterClick = new EventEmitter();
+        this.onSearchChange = new EventEmitter();
         this.showToolTip = false;
         this.checkIcon = 'fa fa-check';
         this.numberFilterArray = [];
@@ -59383,6 +59384,12 @@ class DataGridFilterComponent {
      */
     ngOnInit() {
         this.sortFilterData();
+        if (this.initialSearch) {
+            if (this.initialSearch['dataindex'] === this.column['dataindex']) {
+                this.filterValue = this.initialSearch['value'];
+                this.keyUpSearch(this.column);
+            }
+        }
     }
     /**
      * @param {?} col
@@ -59413,6 +59420,7 @@ class DataGridFilterComponent {
      * @return {?}
      */
     keyUpSearch(col) {
+        this.onSearchChange.emit({ index: col['dataindex'], value: this.filterValue });
         this.showToolTip = false;
         if (this.filterValue == null || this.filterValue === '') {
             this.removeFilter(col);
@@ -59686,8 +59694,10 @@ DataGridFilterComponent.ctorParameters = () => [
 ];
 DataGridFilterComponent.propDecorators = {
     column: [{ type: Input }],
+    initialSearch: [{ type: Input }],
     filterObject: [{ type: Output }],
-    onFilterClick: [{ type: Output }]
+    onFilterClick: [{ type: Output }],
+    onSearchChange: [{ type: Output }]
 };
 
 /**
@@ -59742,6 +59752,7 @@ class AmexioDatagridComponent extends LifeCycleBaseComponent {
            description : It will gives you row clicked data.
            */
         this.rowSelect = new EventEmitter();
+        this.onSearchClick = new EventEmitter();
         /*
            Events
            name : selectedRowData
@@ -61311,6 +61322,13 @@ class AmexioDatagridComponent extends LifeCycleBaseComponent {
             com.showToolTip = false;
         }));
     }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    getSearchChange(event) {
+        this.onSearchClick.emit({ index: event['index'], value: event['value'] });
+    }
     // TAB NAVIGATION
     // LEFT ARROW
     /**
@@ -61822,7 +61840,7 @@ AmexioDatagridComponent.decorators = [
               <ng-container *ngFor="let cols of columns">
                 <ng-container *ngIf="!cols.hidden">
                   <div class="datatable-col col-group" [style.width.%]="cols.width">
-                    <data-grid-filter (onFilterClick)="getFilterClick()" [column]="cols" (filterObject)="getFilteredData($event)">
+                    <data-grid-filter (onFilterClick)="getFilterClick()" (onSearchChange)="getSearchChange($event)" [column]="cols" (filterObject)="getFilteredData($event)" [initialSearch]="initialsearch">
                     </data-grid-filter>
                   </div>
                 </ng-container>
@@ -62167,8 +62185,10 @@ AmexioDatagridComponent.propDecorators = {
     httpmethod: [{ type: Input, args: ['http-method',] }],
     datareader: [{ type: Input, args: ['data-reader',] }],
     enablecheckbox: [{ type: Input, args: ['enable-checkbox',] }],
+    initialsearch: [{ type: Input, args: ['initial-search',] }],
     data: [{ type: Input, args: ['data',] }],
     rowSelect: [{ type: Output }],
+    onSearchClick: [{ type: Output }],
     selectedRowData: [{ type: Output }],
     onHeaderClick: [{ type: Output }],
     height: [{ type: Input }],

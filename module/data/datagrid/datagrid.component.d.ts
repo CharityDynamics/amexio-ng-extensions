@@ -16,9 +16,11 @@ export declare class AmexioDatagridComponent extends LifeCycleBaseComponent impl
     httpmethod: string;
     datareader: string;
     enablecheckbox: boolean;
+    initialsearch: any;
     _data: any;
     data: any[];
     rowSelect: any;
+    onSearchClick: any;
     selectedRowData: any;
     onHeaderClick: any;
     height: any;
@@ -173,6 +175,7 @@ export declare class AmexioDatagridComponent extends LifeCycleBaseComponent impl
     groupbyIconClick(): void;
     onEnableColumnClick(event: any): void;
     getFilterClick(): void;
+    getSearchChange(event: any): void;
     arrowLeft(ref: any): void;
     arrowRight(ref: any): void;
     arrowUp(ref: any): void;

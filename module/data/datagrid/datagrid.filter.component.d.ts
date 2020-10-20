@@ -4,8 +4,10 @@ export declare class DataGridFilterComponent implements OnInit {
     private dataTableService;
     private renderer;
     column: any;
+    initialSearch: any;
     filterObject: any;
     onFilterClick: any;
+    onSearchChange: any;
     filterValue: any;
     filterOptions: any;
     elementId: any;
