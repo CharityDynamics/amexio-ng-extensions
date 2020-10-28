@@ -63647,6 +63647,9 @@ var AmexioDatagridComponent = /** @class */ (function (_super) {
         else if (filter === '2') {
             return key.endsWith(value);
         }
+        else if (filter === '==') {
+            return key === value;
+        }
         else {
             return key !== value;
         }

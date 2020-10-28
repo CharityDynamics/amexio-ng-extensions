@@ -60671,6 +60671,9 @@ class AmexioDatagridComponent extends LifeCycleBaseComponent {
         else if (filter === '2') {
             return key.endsWith(value);
         }
+        else if (filter === '==') {
+            return key === value;
+        }
         else {
             return key !== value;
         }
