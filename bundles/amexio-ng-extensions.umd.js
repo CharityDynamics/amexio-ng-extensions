@@ -63923,8 +63923,12 @@ var AmexioDatagridComponent = /** @class */ (function (_super) {
                 y = [_this.sortInnerFunc(_this.sortColumn.dataindex, b).toLowerCase(), b.id];
             }
             else {
-                x = [a[sortColDataIndex].toLowerCase(), a.id];
-                y = [b[sortColDataIndex].toLowerCase(), b.id];
+                /** @type {?} */
+                var v = a[sortColDataIndex] ? a[sortColDataIndex] : '';
+                /** @type {?} */
+                var w = b[sortColDataIndex] ? b[sortColDataIndex] : '';
+                x = [v.toLowerCase(), a.id];
+                y = [w.toLowerCase(), b.id];
             }
             return _this.noGrpBySortOrder(sortOrder, x, y);
         }));

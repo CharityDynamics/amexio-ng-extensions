@@ -60899,8 +60899,12 @@ class AmexioDatagridComponent extends LifeCycleBaseComponent {
                 y = [this.sortInnerFunc(this.sortColumn.dataindex, b).toLowerCase(), b.id];
             }
             else {
-                x = [a[sortColDataIndex].toLowerCase(), a.id];
-                y = [b[sortColDataIndex].toLowerCase(), b.id];
+                /** @type {?} */
+                const v = a[sortColDataIndex] ? a[sortColDataIndex] : '';
+                /** @type {?} */
+                const w = b[sortColDataIndex] ? b[sortColDataIndex] : '';
+                x = [v.toLowerCase(), a.id];
+                y = [w.toLowerCase(), b.id];
             }
             return this.noGrpBySortOrder(sortOrder, x, y);
         }));
