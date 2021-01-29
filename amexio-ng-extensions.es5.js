@@ -73200,6 +73200,7 @@ var BarChartComponent = /** @class */ (function () {
                 backgroundcolor: this.backgroundcolor,
                 legend: this.chartLengendComponent ? this.createChartLegend() : 'none',
                 chartArea: this.chartAreaComponent ? this.createChartBar() : null,
+                colors: ['#48494B', '#3ABCD6', '#F08801'],
                 hAxis: {
                     title: this.xaxistitle, minvalue: 0,
                 },
